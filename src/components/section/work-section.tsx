@@ -1,15 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { DATA } from "@/data/resume";
 import { ChevronDown, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+interface WorkExperience {
+  id: string;
+  company: string;
+  title: string;
+  description: string;
+  location: string;
+  badges: string[];
+  logoUrl: string;
+  href: string;
+  start: string;
+  end: string;
+}
 
 function LogoImage({ src, alt }: { src: string; alt: string }) {
   const [imageError, setImageError] = useState(false);
@@ -31,21 +43,49 @@ function LogoImage({ src, alt }: { src: string; alt: string }) {
 }
 
 export default function WorkSection() {
+  const [work, setWork] = useState<WorkExperience[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchWork = async () => {
+      try {
+        setLoading(true);
+        const response = await fetch("/api/work");
+        if (!response.ok) throw new Error("Failed to fetch work experience");
+        const data = await response.json();
+        setWork(data);
+        setError(null);
+      } catch (err) {
+        console.error("[v0] Error fetching work experience:", err);
+        setError("Failed to load work experience");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchWork();
+  }, []);
+
+  if (loading) return <div className="text-muted-foreground">Loading work experience...</div>;
+  if (error) return <div className="text-destructive">{error}</div>;
+  if (work.length === 0) return <div className="text-muted-foreground">No work experience found</div>;
+
   return (
     <Accordion type="single" collapsible className="w-full grid gap-6">
-      {DATA.work.map((work) => (
+      {work.map((item) => (
         <AccordionItem
-          key={work.company}
-          value={work.company}
+          key={item.id}
+          value={item.id}
           className="w-full border-b-0 grid gap-2"
         >
           <AccordionTrigger className="hover:no-underline p-0 cursor-pointer transition-colors rounded-none group [&>svg]:hidden">
             <div className="flex items-center gap-x-3 justify-between w-full text-left">
               <div className="flex items-center gap-x-3 flex-1 min-w-0">
-                <LogoImage src={work.logoUrl} alt={work.company} />
+                <LogoImage src={item.logoUrl} alt={item.company} />
                 <div className="flex-1 min-w-0 gap-0.5 flex flex-col">
                   <div className="font-semibold leading-none flex items-center gap-2">
-                    {work.company}
+                    {item.company}
                     <span className="relative inline-flex items-center w-3.5 h-3.5">
                       <ChevronRight
                         className={cn(
@@ -65,19 +105,19 @@ export default function WorkSection() {
                     </span>
                   </div>
                   <div className="font-sans text-sm text-muted-foreground">
-                    {work.title}
+                    {item.title}
                   </div>
                 </div>
               </div>
               <div className="flex items-center gap-1 text-xs tabular-nums text-muted-foreground text-right flex-none">
                 <span>
-                  {work.start} - {work.end ?? "Present"}
+                  {item.start} - {item.end ?? "Present"}
                 </span>
               </div>
             </div>
           </AccordionTrigger>
           <AccordionContent className="p-0 ml-13 text-xs sm:text-sm text-muted-foreground">
-            {work.description}
+            {item.description}
           </AccordionContent>
         </AccordionItem>
       ))}

@@ -1,0 +1,267 @@
+{
+  "projects": [
+    {
+      "id": "1783419881569-s85u86hav",
+      "title": "llm.report",
+      "description": "Developed an open-source logging and analytics platform for OpenAI: Log your ChatGPT API requests, analyze costs, and improve your prompts.",
+      "dates": "April 2023 - September 2023",
+      "active": true,
+      "technologies": [
+        "Next.js",
+        "Typescript",
+        "PostgreSQL",
+        "Prisma",
+        "TailwindCSS",
+        "Shadcn UI",
+        "Magic UI",
+        "Stripe",
+        "Cloudflare Workers"
+      ],
+      "links": [
+        {
+          "type": "Website",
+          "href": "https://llm.report"
+        },
+        {
+          "type": "Source",
+          "href": "https://github.com/dillionverma/llm.report"
+        }
+      ],
+      "video": "https://cdn.llm.report/openai-demo.mp4",
+      "image": "",
+      "createdAt": 1783419881569,
+      "updatedAt": 1783419881569
+    },
+    {
+      "id": "1783419881569-7lh1oalb9",
+      "title": "Automatic Chat",
+      "description": "Developed an AI Customer Support Chatbot which automatically responds to customer support tickets using the latest GPT models.",
+      "dates": "April 2023 - March 2024",
+      "active": true,
+      "technologies": [
+        "Next.js",
+        "Typescript",
+        "PostgreSQL",
+        "Prisma",
+        "TailwindCSS",
+        "Shadcn UI",
+        "Magic UI",
+        "Stripe",
+        "Cloudflare Workers"
+      ],
+      "links": [
+        {
+          "type": "Website",
+          "href": "https://automatic.chat"
+        }
+      ],
+      "video": "https://pub-83c5db439b40468498f97946200806f7.r2.dev/automatic-chat.mp4",
+      "image": "",
+      "createdAt": 1783419881569,
+      "updatedAt": 1783419881569
+    },
+    {
+      "id": "1783419881568-t7ftehqyu",
+      "title": "Chat Collect",
+      "description": "With the release of the OpenAI GPT Store, I decided to build a SaaS which allows users to collect email addresses from their GPT users. This is a great way to build an audience and monetize your GPT API usage.",
+      "dates": "Jan 2024 - Feb 2024",
+      "active": true,
+      "technologies": [
+        "Next.js",
+        "Typescript",
+        "PostgreSQL",
+        "Prisma",
+        "TailwindCSS",
+        "Stripe",
+        "Shadcn UI",
+        "Magic UI"
+      ],
+      "links": [
+        {
+          "type": "Website",
+          "href": "https://chatcollect.com"
+        }
+      ],
+      "video": "https://pub-83c5db439b40468498f97946200806f7.r2.dev/chat-collect.mp4",
+      "image": "",
+      "createdAt": 1783419881568,
+      "updatedAt": 1783419881568
+    },
+    {
+      "id": "1783419881568-cmg5c9a3e",
+      "title": "Magic UI",
+      "description": "Designed, developed and sold animated UI components for developers.",
+      "dates": "June 2023 - Present",
+      "active": true,
+      "technologies": [
+        "Next.js",
+        "Typescript",
+        "PostgreSQL",
+        "Prisma",
+        "TailwindCSS",
+        "Stripe",
+        "Shadcn UI",
+        "Magic UI"
+      ],
+      "links": [
+        {
+          "type": "Website",
+          "href": "https://magicui.design"
+        },
+        {
+          "type": "Source",
+          "href": "https://github.com/magicuidesign/magicui"
+        }
+      ],
+      "video": "https://cdn.magicui.design/bento-grid.mp4",
+      "image": "",
+      "createdAt": 1783419881568,
+      "updatedAt": 1783419881568
+    }
+  ],
+  "blog_posts": [],
+  "work_experience": [
+    {
+      "id": "1783419881570-pz47n1n29",
+      "company": "Lime",
+      "title": "Software Engineer",
+      "description": "Proposed and implemented an internal ruby API for sending/receiving commands to scooters over LTE networks. Developed a fully automated bike firmware update system to handle asynchronous firmware updates of over 100,000+ scooters worldwide, and provide progress reports in real-time using React, Ruby on Rails, PostgreSQL and AWS EC2 saving hundreds of developer hours.",
+      "location": "San Francisco, CA",
+      "badges": [],
+      "logoUrl": "/lime.svg",
+      "href": "https://li.me/",
+      "start": "January 2018",
+      "end": "April 2018",
+      "createdAt": 1783419881570,
+      "updatedAt": 1783419881570
+    },
+    {
+      "id": "1783419881570-147a7q5rr",
+      "company": "Mitre Media",
+      "title": "Software Engineer",
+      "description": "Designed and implemented a robust password encryption and browser cookie storage system in Ruby on Rails. Leveraged the Yahoo finance API to develop the dividend.com equity screener",
+      "location": "Toronto, ON",
+      "badges": [],
+      "logoUrl": "/mitremedia.png",
+      "href": "https://mitremedia.com/",
+      "start": "May 2017",
+      "end": "August 2017",
+      "createdAt": 1783419881570,
+      "updatedAt": 1783419881570
+    },
+    {
+      "id": "1783419881569-01fqwesr3",
+      "company": "Atomic Finance",
+      "title": "Bitcoin Protocol Engineer",
+      "description": "Implemented the Bitcoin discreet log contract (DLC) protocol specifications as an open source Typescript SDK. Dockerized all microservices and setup production kubernetes cluster. Architected a data lake using AWS S3 and Athena for historical backtesting of bitcoin trading strategies. Built a mobile app using react native and typescript.",
+      "location": "Remote",
+      "badges": [],
+      "logoUrl": "/atomic.png",
+      "href": "https://atomic.finance",
+      "start": "May 2021",
+      "end": "Oct 2022",
+      "createdAt": 1783419881569,
+      "updatedAt": 1783419881569
+    },
+    {
+      "id": "1783419881569-zd4lizc47",
+      "company": "Shopify",
+      "title": "Software Engineer",
+      "description": "Implemented a custom Kubernetes controller in Go to automate the deployment of MySQL and ProxySQL custom resources in order to enable 2,000+ internal developers to instantly deploy their app databases to production. Wrote several scripts in Go to automate MySQL database failovers while maintaining master-slave replication topologies and keeping Zookeeper nodes consistent with changes.",
+      "location": "Remote",
+      "badges": [],
+      "logoUrl": "/shopify.svg",
+      "href": "https://shopify.com",
+      "start": "January 2021",
+      "end": "April 2021",
+      "createdAt": 1783419881569,
+      "updatedAt": 1783419881569
+    },
+    {
+      "id": "1783419881569-ze7jjr1k2",
+      "company": "Nvidia",
+      "title": "Software Engineer",
+      "description": "Architected and wrote the entire MVP of the GeForce Now Cloud Gaming internal admin and A/B testing dashboard using React, Redux, TypeScript, and Python.",
+      "location": "Santa Clara, CA",
+      "badges": [],
+      "logoUrl": "/nvidia.png",
+      "href": "https://nvidia.com/",
+      "start": "January 2020",
+      "end": "April 2020",
+      "createdAt": 1783419881569,
+      "updatedAt": 1783419881569
+    },
+    {
+      "id": "1783419881569-i4nopikeo",
+      "company": "Splunk",
+      "title": "Software Engineer",
+      "description": "Co-developed a prototype iOS app with another intern in Swift for the new Splunk Phantom security orchestration product (later publicly demoed and launched at .conf annual conference in Las Vegas). Implemented a realtime service for the iOS app in Django (Python) and C++; serialized data using protobufs transmitted over gRPC resulting in an approximate 500% increase in data throughput.",
+      "location": "San Jose, CA",
+      "badges": [],
+      "logoUrl": "/splunk.svg",
+      "href": "https://splunk.com",
+      "start": "January 2019",
+      "end": "April 2019",
+      "createdAt": 1783419881569,
+      "updatedAt": 1783419881569
+    }
+  ],
+  "education": [
+    {
+      "id": "1783419881571-ijnqmq0wf",
+      "school": "Wilfrid Laurier University",
+      "degree": "Bachelor's Degree of Business Administration (BBA)",
+      "logoUrl": "/laurier.png",
+      "href": "https://wlu.ca",
+      "start": "2016",
+      "end": "2021",
+      "createdAt": 1783419881571,
+      "updatedAt": 1783419881571
+    },
+    {
+      "id": "1783419881571-bmmwd8gtc",
+      "school": "International Baccalaureate",
+      "degree": "IB Diploma",
+      "logoUrl": "/ib.png",
+      "href": "https://ibo.org",
+      "start": "2012",
+      "end": "2016",
+      "createdAt": 1783419881571,
+      "updatedAt": 1783419881571
+    },
+    {
+      "id": "1783419881570-100lsgwu7",
+      "school": "Buildspace",
+      "degree": "s3, s4, sf1, s5",
+      "logoUrl": "/buildspace.jpg",
+      "href": "https://buildspace.so",
+      "start": "2023",
+      "end": "2024",
+      "createdAt": 1783419881570,
+      "updatedAt": 1783419881570
+    },
+    {
+      "id": "1783419881570-zgd3w8aja",
+      "school": "University of Waterloo",
+      "degree": "Bachelor's Degree of Computer Science (BCS)",
+      "logoUrl": "/waterloo.png",
+      "href": "https://uwaterloo.ca",
+      "start": "2016",
+      "end": "2021",
+      "createdAt": 1783419881570,
+      "updatedAt": 1783419881570
+    }
+  ],
+  "contact_submissions": [
+    {
+      "id": "1783420034820-vrmpf5zwc",
+      "name": "Test User",
+      "email": "test@example.com",
+      "subject": "Test Subject",
+      "message": "Test message",
+      "read": false,
+      "archived": false,
+      "createdAt": 1783420034820
+    }
+  ]
+}
