@@ -2,7 +2,8 @@ import BlurFade from "@/components/magicui/blur-fade";
 import { allPosts } from "content-collections";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { paginate, normalizePage } from "@/lib/pagination";
+import { normalizePage, paginate } from "@/lib/pagination";
+import { readingTime } from "@/lib/content";
 import { ChevronRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -25,21 +26,26 @@ const BLUR_FADE_DELAY = 0.04;
 export default async function BlogPage({
   searchParams,
 }: {
-  searchParams: Promise<{ page?: string }>;
+  searchParams: Promise<{ page?: string; tag?: string }>;
 }) {
-  const { page: pageParam } = await searchParams;
+  const { page: pageParam, tag: tagParam } = await searchParams;
 
-  const posts = allPosts;
-  const sortedPosts = [...posts].sort((a, b) => {
-    if (new Date(a.publishedAt) > new Date(b.publishedAt)) {
-      return -1;
-    }
+  const sortedPosts = [...allPosts].sort((a, b) => {
+    if (new Date(a.publishedAt) > new Date(b.publishedAt)) return -1;
     return 1;
   });
 
-  const totalPages = Math.ceil(sortedPosts.length / PAGE_SIZE);
+  const allTags = Array.from(
+    new Set(sortedPosts.flatMap((p) => p.tags ?? []))
+  ).sort();
+
+  const filtered = tagParam
+    ? sortedPosts.filter((p) => (p.tags ?? []).includes(tagParam))
+    : sortedPosts;
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const currentPage = normalizePage(pageParam, totalPages);
-  const { items: paginatedPosts, pagination } = paginate(sortedPosts, {
+  const { items: paginatedPosts, pagination } = paginate(filtered, {
     page: currentPage,
     pageSize: PAGE_SIZE,
   });
@@ -47,19 +53,58 @@ export default async function BlogPage({
   return (
     <section id="blog">
       <BlurFade delay={BLUR_FADE_DELAY}>
-        <h1 className="text-2xl font-semibold tracking-tight mb-2">Blog <span className="ml-1 bg-card border border-border rounded-md px-2 py-1 text-muted-foreground text-sm">{sortedPosts.length} posts</span></h1>
-        <p className="text-sm text-muted-foreground mb-8">
+        <h1 className="text-2xl font-semibold tracking-tight mb-2">
+          Blog{" "}
+          <span className="ml-1 bg-card border border-border rounded-md px-2 py-1 text-muted-foreground text-sm">
+            {sortedPosts.length} posts
+          </span>
+        </h1>
+        <p className="text-sm text-muted-foreground mb-6">
           My thoughts on software development, life, and more.
         </p>
       </BlurFade>
 
+      {allTags.length > 0 && (
+        <BlurFade delay={BLUR_FADE_DELAY * 2}>
+          <div className="flex flex-wrap gap-2 mb-8">
+            <Link
+              href="/blog"
+              className={`h-8 px-3 flex items-center text-sm rounded-lg border transition-colors ${
+                !tagParam
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "border-border hover:bg-accent/50 text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              All
+            </Link>
+            {allTags.map((tag) => {
+              const isActive = tagParam === tag;
+              return (
+                <Link
+                  key={tag}
+                  href={`/blog?tag=${tag}`}
+                  className={`h-8 px-3 flex items-center text-sm rounded-lg border transition-colors ${
+                    isActive
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "border-border hover:bg-accent/50 text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {tag}
+                </Link>
+              );
+            })}
+          </div>
+        </BlurFade>
+      )}
+
       {paginatedPosts.length > 0 ? (
         <>
-          <BlurFade delay={BLUR_FADE_DELAY * 2}>
+          <BlurFade delay={BLUR_FADE_DELAY * 3}>
             <div className="flex flex-col gap-5">
               {paginatedPosts.map((post, id) => {
                 const slug = post._meta.path.replace(/\.mdx$/, "");
                 const indexNumber = (pagination.page - 1) * PAGE_SIZE + id + 1;
+                const minutes = readingTime(post.content || post.summary);
                 return (
                   <BlurFade delay={BLUR_FADE_DELAY * 3 + id * 0.05} key={slug}>
                     <Link
@@ -79,9 +124,29 @@ export default async function BlogPage({
                             />
                           </span>
                         </p>
-                        <p className="text-xs text-muted-foreground">
-                          {post.publishedAt}
+                        <p className="text-sm text-muted-foreground">
+                          {post.summary}
                         </p>
+                        <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                          <span>{post.publishedAt}</span>
+                          <span>·</span>
+                          <span>{minutes} min read</span>
+                          {post.tags && post.tags.length > 0 && (
+                            <>
+                              <span>·</span>
+                              <span className="flex flex-wrap gap-1.5">
+                                {post.tags.slice(0, 3).map((tag) => (
+                                  <span
+                                    key={tag}
+                                    className="border border-border rounded px-1.5 py-0.5"
+                                  >
+                                    {tag}
+                                  </span>
+                                ))}
+                              </span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </Link>
                   </BlurFade>
@@ -90,7 +155,6 @@ export default async function BlogPage({
             </div>
           </BlurFade>
 
-          {/* Pagination Controls */}
           {pagination.totalPages > 1 && (
             <BlurFade delay={BLUR_FADE_DELAY * 4}>
               <div className="flex gap-3 flex-row items-center justify-between mt-8">
@@ -100,8 +164,8 @@ export default async function BlogPage({
                 <div className="flex gap-2 sm:justify-end">
                   {pagination.hasPreviousPage ? (
                     <Link
-                      href={`/blog?page=${pagination.page - 1}`}
-                      className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg hover:bg-accent/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      href={`/blog?${tagParam ? `tag=${tagParam}&` : ""}page=${pagination.page - 1}`}
+                      className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg hover:bg-accent/50 transition-colors"
                     >
                       Previous
                     </Link>
@@ -112,8 +176,8 @@ export default async function BlogPage({
                   )}
                   {pagination.hasNextPage ? (
                     <Link
-                      href={`/blog?page=${pagination.page + 1}`}
-                      className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg hover:bg-accent/50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      href={`/blog?${tagParam ? `tag=${tagParam}&` : ""}page=${pagination.page + 1}`}
+                      className="h-8 w-fit px-2 flex items-center justify-center text-sm border border-border rounded-lg hover:bg-accent/50 transition-colors"
                     >
                       Next
                     </Link>

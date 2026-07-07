@@ -1,0 +1,65 @@
+---
+title: "DevFlow"
+description: "A real-time collaborative code editor with AI-powered code completion and live preview."
+category: "web-app"
+techStack: ["Next.js", "TypeScript", "Supabase", "WebSockets", "OpenAI"]
+featured: true
+coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+githubUrl: "https://github.com/example/devflow"
+liveUrl: "https://devflow.example.com"
+publishedAt: "2024-09-15"
+---
+
+## Overview
+
+DevFlow is a real-time collaborative code editor that lets multiple developers write, run, and debug code together in the browser. It combines live multiplayer editing with AI-assisted code completion and an instant preview pane.
+
+## Problem
+
+Remote teams often struggle with context switching between pair-programming tools, terminal sessions, and preview environments. Existing collaborative editors either lacked live preview or felt disconnected from the actual development workflow.
+
+## Solution
+
+I built DevFlow as a single-page application on top of WebSockets for presence and CRDT-based text synchronization. The AI completion layer streams suggestions from an OpenAI edge function, and the preview pane hot-reloads on every keystroke.
+
+### Architecture
+
+```typescript title="collab-session.ts"
+import { createClient } from "@supabase/supabase-js";
+
+export function joinSession(roomId: string, user: User) {
+  const channel = supabase.channel(`room:${roomId}`);
+  channel
+    .on("broadcast", { event: "cursor" }, ({ payload }) => {
+      renderCursor(payload);
+    })
+    .subscribe();
+  return channel;
+}
+```
+
+## Tech Stack
+
+- **Next.js** — App router, server components, edge runtime
+- **Supabase** — Realtime channels, auth, Postgres
+- **WebSockets** — Sub-50ms cursor sync
+- **OpenAI** — Streaming code completions
+
+## Key Features
+
+- Live multiplayer editing with presence cursors
+- AI code completion with inline diffing
+- Instant preview for React and static HTML
+- Shareable read-only links for reviews
+
+## Screenshots
+
+<MediaContainer
+  src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&fit=crop"
+  alt="DevFlow editor interface"
+/>
+
+## Links
+
+- [Live demo](https://devflow.example.com)
+- [Source code](https://github.com/example/devflow)

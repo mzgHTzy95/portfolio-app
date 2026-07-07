@@ -1,0 +1,56 @@
+---
+title: "Pulse Analytics"
+description: "A privacy-first product analytics dashboard with cookieless tracking and real-time funnels."
+category: "web-app"
+techStack: ["Next.js", "TypeScript", "PostgreSQL", "ClickHouse", "TailwindCSS"]
+featured: true
+coverImage: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&h=630&fit=crop"
+githubUrl: "https://github.com/example/pulse"
+liveUrl: "https://pulse.example.com"
+publishedAt: "2024-07-01"
+---
+
+## Overview
+
+Pulse is a privacy-first product analytics platform that tracks user behavior without cookies or personal data. It renders real-time funnels, retention charts, and session replays from anonymized event streams.
+
+## Problem
+
+Most analytics tools require invasive tracking, GDPR consent banners, and heavy client-side scripts that hurt page performance. Teams wanted actionable insights without the privacy overhead.
+
+## Solution
+
+Pulse uses a lightweight edge-collected beacon (under 1KB) that records only anonymous events. The ingestion pipeline batches events into ClickHouse for sub-second funnel queries, and the dashboard renders with server components.
+
+### Event ingestion
+
+```typescript title="ingest.ts"
+export async function POST(req: Request) {
+  const event = await req.json();
+  await clickhouse.insert({
+    table: "events",
+    values: [{ ...event, ts: new Date() }],
+    format: "JSONEachRow",
+  });
+  return new Response("ok", { status: 202 });
+}
+```
+
+## Tech Stack
+
+- **Next.js** — Server components, route handlers
+- **ClickHouse** — Sub-second funnel aggregation
+- **PostgreSQL** — Account and project metadata
+- **TailwindCSS** — Dashboard UI
+
+## Key Features
+
+- Cookieless, GDPR-friendly tracking
+- Real-time funnels and retention cohorts
+- Sub-1KB tracking beacon
+- Shareable dashboard links
+
+## Links
+
+- [Live demo](https://pulse.example.com)
+- [Source code](https://github.com/example/pulse)

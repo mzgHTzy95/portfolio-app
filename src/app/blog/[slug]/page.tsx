@@ -7,6 +7,8 @@ import { MDXContent } from "@content-collections/mdx/react";
 import { mdxComponents } from "@/mdx-components";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ProjectToc } from "@/components/project-toc";
+import { readingTime } from "@/lib/content";
 
 function getSortedPosts() {
   return [...allPosts].sort((a, b) => {
@@ -133,7 +135,7 @@ export default async function Blog({
           {post.title}
         </h1>
         <p className="text-sm text-muted-foreground">
-          {formatDate(post.publishedAt)}
+          {formatDate(post.publishedAt)} · {readingTime(post.content || post.summary)} min read
         </p>
       </div>
       <div className="my-6 flex w-full items-center">
@@ -147,9 +149,13 @@ export default async function Blog({
           }}
         />
       </div>
-      <article className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert">
-        <MDXContent code={post.mdx} components={mdxComponents} />
-      </article>
+      <div className="flex flex-col md:flex-row gap-8">
+        <article className="prose max-w-full text-pretty font-sans leading-relaxed text-muted-foreground dark:prose-invert flex-1 min-w-0">
+          <MDXContent code={post.mdx} components={mdxComponents} />
+        </article>
+
+        <ProjectToc mdx={post.mdx} />
+      </div>
 
       <nav className="mt-12 pt-8 max-w-2xl">
         <div className="flex flex-col sm:flex-row justify-between gap-4">

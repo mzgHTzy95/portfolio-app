@@ -1,0 +1,53 @@
+---
+title: "Open UI Kit"
+description: "An open-source headless component library with full keyboard navigation and ARIA support."
+category: "open-source"
+techStack: ["React", "TypeScript", "Radix UI", "TailwindCSS"]
+featured: true
+coverImage: "https://images.unsplash.com/photo-1517180102446-f3ece251e9f5?w=1200&h=630&fit=crop"
+githubUrl: "https://github.com/example/open-ui-kit"
+publishedAt: "2024-05-20"
+---
+
+## Overview
+
+Open UI Kit is a headless, fully accessible component library built on Radix UI primitives. It ships unstyled components with sensible defaults and a composable API for building design systems.
+
+## Problem
+
+Most UI libraries force a visual style that's hard to override, or they ship styled components that break accessibility when customized. Teams needed a foundation that was accessible by default and truly unstyled.
+
+## Solution
+
+Each component is a thin wrapper around Radix primitives with a `className` prop and a `variants` API powered by `class-variance-authority`. The library is tree-shakeable and ships zero runtime CSS.
+
+### Button composition
+
+```tsx title="button.tsx"
+import { cva, type VariantProps } from "class-variance-authority";
+
+const button = cva("inline-flex items-center justify-center rounded-md", {
+  variants: {
+    variant: { primary: "bg-primary text-white", ghost: "hover:bg-muted" },
+    size: { sm: "h-8 px-3", md: "h-10 px-4" },
+  },
+});
+```
+
+## Tech Stack
+
+- **React** — Component primitives
+- **Radix UI** — Accessible behavior
+- **TypeScript** — Fully typed variants
+- **TailwindCSS** — Optional styling layer
+
+## Key Features
+
+- 30+ headless components
+- Full keyboard navigation and ARIA
+- Tree-shakeable, zero runtime CSS
+- Composable variant API
+
+## Links
+
+- [Source code](https://github.com/example/open-ui-kit)
