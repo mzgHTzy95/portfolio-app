@@ -1,9 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
-import BlurFade from "@/components/magicui/blur-fade";
-import { ProjectCard } from "@/components/project-card";
-
-const BLUR_FADE_DELAY = 0.04;
+import Link from "next/link";
 
 interface Project {
   id: string;
@@ -42,53 +39,54 @@ export default function ProjectsSection() {
     fetchProjects();
   }, []);
 
+  if (loading) return <div className="text-muted-foreground">Loading projects...</div>;
+  if (error) return <div className="text-destructive">{error}</div>;
+
   return (
-    <section id="projects">
-      <div className="flex min-h-0 flex-col gap-y-8">
-        <div className="flex flex-col gap-y-4 items-center justify-center">
-          <div className="flex items-center w-full">
-            <div className="flex-1 h-px bg-linear-to-r from-transparent from-5% via-border via-95% to-transparent" />
-            <div className="border bg-primary z-10 rounded-xl px-4 py-1">
-              <span className="text-background text-sm font-medium">My Projects</span>
-            </div>
-            <div className="flex-1 h-px bg-linear-to-l from-transparent from-5% via-border via-95% to-transparent" />
-          </div>
-          <div className="flex flex-col gap-y-3 items-center justify-center">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl">Check out my latest work</h2>
-            <p className="text-muted-foreground md:text-lg/relaxed lg:text-base/relaxed xl:text-lg/relaxed text-balance text-center">
-              I&apos;ve worked on a variety of projects, from simple
-              websites to complex web applications. Here are a few of my
-              favorites.
-            </p>
-          </div>
-        </div>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 max-w-[800px] mx-auto auto-rows-fr">
-          {loading && <div className="col-span-full text-center text-muted-foreground">Loading projects...</div>}
-          {error && <div className="col-span-full text-center text-destructive">{error}</div>}
-          {!loading && !error && projects.length === 0 && (
-            <div className="col-span-full text-center text-muted-foreground">No projects found</div>
-          )}
-          {projects.map((project, id) => (
-            <BlurFade
-              key={project.id}
-              delay={BLUR_FADE_DELAY * 12 + id * 0.05}
-              className="h-full"
-            >
-              <ProjectCard
+    <div className="space-y-8">
+      {projects.length === 0 ? (
+        <p className="text-muted-foreground">No projects found</p>
+      ) : (
+        <div className="space-y-6">
+          {projects.map((project) => (
+            <div key={project.id} className="border-b border-border pb-6 last:border-b-0">
+              <Link
                 href={project.links?.[0]?.href || "#"}
-                title={project.title}
-                description={project.description}
-                dates={project.dates}
-                tags={project.technologies}
-                image={project.image}
-                video={project.video}
-                links={project.links}
-              />
-            </BlurFade>
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group"
+              >
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-foreground group-hover:underline transition-all">
+                      {project.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground mt-2 line-clamp-2">
+                      {project.description}
+                    </p>
+                    {project.technologies && project.technologies.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-3">
+                        {project.technologies.slice(0, 3).map((tech) => (
+                          <span key={tech} className="text-xs text-muted-foreground border-l border-foreground pl-2">
+                            {tech}
+                          </span>
+                        ))}
+                        {project.technologies.length > 3 && (
+                          <span className="text-xs text-muted-foreground">+{project.technologies.length - 3}</span>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-xs text-muted-foreground">{project.dates}</p>
+                  </div>
+                </div>
+              </Link>
+            </div>
           ))}
         </div>
-      </div>
-    </section>
+      )}
+    </div>
   );
 }
 

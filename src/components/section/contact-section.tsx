@@ -1,9 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useState } from "react";
-import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { DATA } from "@/data/resume";
-import { Button } from "@/components/ui/button";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -42,87 +40,84 @@ export default function ContactSection() {
   };
 
   return (
-    <div className="border rounded-xl p-10 relative">
-      <div className="absolute -top-4 border bg-primary z-10 rounded-xl px-4 py-1 left-1/2 -translate-x-1/2">
-        <span className="text-background text-sm font-medium">Contact</span>
-      </div>
-      <div className="absolute inset-0 top-0 left-0 right-0 h-1/2 rounded-xl overflow-hidden">
-        <FlickeringGrid
-          className="h-full w-full"
-          squareSize={2}
-          gridGap={2}
-          style={{
-            maskImage: "linear-gradient(to bottom, black, transparent)",
-            WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
-          }}
-        />
-      </div>
-      <div className="relative flex flex-col items-center gap-6 text-center">
-        <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-          Get in Touch
-        </h2>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-semibold">Get in Touch</h2>
+      <p className="text-muted-foreground">
+        Have a project in mind? I&apos;d love to hear about it. Send me a message and I&apos;ll get back to you as soon as possible.
+      </p>
 
-        {submitted && (
-          <div className="w-full max-w-md bg-green-500/10 border border-green-500/50 rounded-lg p-4 text-green-700 dark:text-green-400">
-            Thanks for reaching out! I&apos;ll get back to you soon.
-          </div>
-        )}
+      {submitted && (
+        <div className="border border-border bg-muted/50 p-4 text-sm">
+          <p className="text-foreground">Thanks for reaching out! I&apos;ll get back to you soon.</p>
+        </div>
+      )}
 
-        {error && (
-          <div className="w-full max-w-md bg-red-500/10 border border-red-500/50 rounded-lg p-4 text-red-700 dark:text-red-400">
-            {error}
-          </div>
-        )}
+      {error && (
+        <div className="border border-border bg-muted/50 p-4 text-sm text-destructive">
+          <p>{error}</p>
+        </div>
+      )}
 
-        <form onSubmit={handleSubmit} className="w-full max-w-md flex flex-col gap-4">
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div>
           <input
             type="text"
-            placeholder="Your Name"
+            placeholder="Name"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             required
-            className="px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground text-sm"
           />
+        </div>
+        <div>
           <input
             type="email"
-            placeholder="Your Email"
+            placeholder="Email"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
             required
-            className="px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground text-sm"
           />
+        </div>
+        <div>
           <input
             type="text"
             placeholder="Subject"
             value={formData.subject}
             onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
             required
-            className="px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+            className="w-full px-4 py-2 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground text-sm"
           />
+        </div>
+        <div>
           <textarea
-            placeholder="Your Message"
+            placeholder="Message"
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             required
             rows={5}
-            className="px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary resize-none"
+            className="w-full px-4 py-2 border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-1 focus:ring-foreground text-sm resize-none"
           />
-          <Button type="submit" disabled={loading} className="w-full">
-            {loading ? "Sending..." : "Send Message"}
-          </Button>
-        </form>
+        </div>
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full px-4 py-2 bg-foreground text-background font-medium text-sm hover:bg-foreground/90 transition-colors disabled:opacity-50"
+        >
+          {loading ? "Sending..." : "Send"}
+        </button>
+      </form>
 
-        <p className="mx-auto max-w-lg text-muted-foreground text-balance text-sm">
-          Or reach out on{" "}
+      <div className="text-sm text-muted-foreground border-t border-border pt-6">
+        <p>Or connect on{" "}
           <Link
             href={DATA.contact.social.X.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="text-blue-500 hover:underline underline-offset-4"
+            className="text-foreground underline underline-offset-2 hover:no-underline"
           >
             Twitter
           </Link>
-          {" "}for a quick chat.
         </p>
       </div>
     </div>
